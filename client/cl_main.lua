@@ -14,32 +14,23 @@ Tunnel.bindInterface(GetCurrentResourceName(), cRP)
 vSERVER = Tunnel.getInterface(GetCurrentResourceName())
 -----------------------------------------------------------------------------------------------------------------------------------------
 PlayerJob = {}
+PlayerData = {}
 isLoggedIn = false
 local blips = {}
-
--- core related
-
-AddEventHandler('onResourceStart', function(resourceName)
-    if GetCurrentResourceName() == resourceName then
-		isLoggedIn = true
-        PlayerData = vSERVER.getPlayerInformationBd()
-		PlayerData[1].job = { ["name"] = "police" }
-		PlayerJob.onduty = true
-    end
-end)
-
-RegisterNetEvent('playerDropped', function()
-	PlayerData = {}
-    isLoggedIn = false
-    currentCallSign = ""
-end)
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 function _U(entry)
 	return Locales[Config.Locale][entry] 
 end
-
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+AddEventHandler("onResourceStart", function()
+	local data = vRP.getPlayerInformationBd()
+	if data ~= nil then
+		PlayerData = data
+		if PlayerData[1].job["name"] == "Police" then
+			PlayerJob.onduty = true
+		end
+	end
+end)
 
 function getSpeed() return speedlimit end
 function getStreet() return currentStreetName end
