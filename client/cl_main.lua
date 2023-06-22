@@ -176,12 +176,13 @@ function IsPoliceJob(job)
 end
 
 local function IsValidJob(jobList)
-	for k, v in pairs(jobList) do
-		if v == PlayerJob then
-			return true
+    for k, v in pairs(jobList) do
+        if v == PlayerData[1].job["name"] then
+            return true
+		else
+			return false
 		end
-	end
-	return false
+    end
 end
 
 local function CheckOnDuty()
@@ -216,18 +217,18 @@ end)
 
 RegisterNetEvent('dispatch:clNotify', function(sNotificationData, sNotificationId, sender)
     if sNotificationData ~= nil and isLoggedIn then
-		if IsValidJob(sNotificationData['job']) and CheckOnDuty() then
+        if IsValidJob(sNotificationData.job) and CheckOnDuty() then
             if not disableNotis then
-				if sNotificationData.origin ~= nil then
-					SendNUIMessage({
-						update = "newCall",
-						callID = sNotificationId,
-						data = sNotificationData,
-						timer = 5000,
-						isPolice = IsPoliceJob(PlayerJob.name)
-					})
-				end
-			end
+                if sNotificationData.origin ~= nil then
+                    SendNUIMessage({
+                        update = "newCall",
+                        callID = sNotificationId,
+                        data = sNotificationData,
+                        timer = 5000,
+                        isPolice = true
+                    })
+                end
+            end
         end
     end
 end)
