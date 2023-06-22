@@ -170,10 +170,9 @@ local function IsValidJob(jobList)
     for k, v in pairs(jobList) do
         if v == PlayerData[1].job["name"] then
             return true
-		else
-			return false
 		end
     end
+	return true
 end
 
 local function CheckOnDuty()
