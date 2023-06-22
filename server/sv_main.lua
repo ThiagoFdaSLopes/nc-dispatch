@@ -101,8 +101,7 @@ AddEventHandler("dispatch:addUnit", function(callid, player, cb)
             end
         end
 
-        if IsPoliceJob(player.job.name) then
-            print("Alo")
+        if IsPoliceJob(player.job) then
             calls[callid]['units'][#calls[callid]['units']+1] = { cid = player.cid, fullname = player.fullname, job = 'Police', callsign = player.callsign }
         elseif player.job.name == 'ambulance' then
             calls[callid]['units'][#calls[callid]['units']+1] = { cid = player.cid, fullname = player.fullname, job = 'EMS', callsign = player.callsign }
