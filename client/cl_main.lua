@@ -28,6 +28,7 @@ AddEventHandler("onResourceStart", function()
 		PlayerData = data[1]
 		if PlayerData.job.name == "police" then
 			PlayerJob.onduty = true
+			isLoggedIn = true
 		end
 	end
 end)
