@@ -93,7 +93,7 @@ RegisterCommand('911', function(source, args, rawCommand)
                     dispatchCode = "911",
                     firstStreet = locationInfo,
                     priority = 2, -- priority
-                    name = plyData[1].name:sub(1, 1):upper() .. plyData[1].name2:sub(2) .. " " .. plyData[1].name:sub(1, 1):upper() .. plyData[1].name2:sub(2),
+                    name = plyData[1].name.." "..plyData[1].name2,
                     number = plyData[1].phone,
                     origin = {
                         x = currentPos.x,
@@ -178,7 +178,7 @@ RegisterCommand('311', function(source, args, rawCommand)
                     dispatchCode = "311",
                     firstStreet = locationInfo,
                     priority = 2, -- priority
-                    name = plyData[1].name:sub(1, 1):upper() .. plyData[1].name2:sub(2) .. " " .. plyData[1].name:sub(1, 1):upper() .. plyData[1].name2:sub(2),
+                    name = plyData[1].name.." "..plyData[1].name2,
                     number = plyData[1].phone,
                     origin = {
                         x = currentPos.x,
