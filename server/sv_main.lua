@@ -24,10 +24,10 @@ function cRP.getPlayerInformationBd()
 	if PlayerData[1] ~= nil then
         if vRP.hasPermission(userPlayerId, "Police") then
             PlayerData[1].job = { ["name"] = "police" }
-            return PlayerData
+            return PlayerData[1]
         else
             PlayerData[1].job = { ["name"] = "user" }
-            return PlayerData
+            return PlayerData[1]
         end
     end
 end
