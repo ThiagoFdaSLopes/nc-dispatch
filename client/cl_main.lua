@@ -168,9 +168,7 @@ end
 
 local function IsValidJob(jobList)
     for k, v in pairs(jobList) do
-		print(v)
-		print(PlayerData[1])
-        if v == PlayerData[1].job["name"] then
+        if v == PlayerData.job.name then
             return true
 		end
     end
