@@ -24,9 +24,10 @@ end
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 AddEventHandler("onResourceStart", function()
 	local data = vRP.getPlayerInformationBd()
-	if data ~= nil then
+	if data[1] ~= nil then
 		PlayerData = data
 		if PlayerData[1].job["name"] == "Police" then
+			print(PlayerData[1].job["name"])
 			PlayerJob.onduty = true
 		end
 	end
@@ -169,7 +170,7 @@ end
 local function IsValidJob(jobList)
     for k, v in pairs(jobList) do
 		print(v)
-		print(PlayerData[1].job["name"])
+		print(PlayerData[1])
         if v == PlayerData[1].job["name"] then
             return true
 		end
