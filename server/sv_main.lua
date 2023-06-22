@@ -17,12 +17,18 @@ local calls = {}
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- Pegar Dados PlayerData
 -----------------------------------------------------------------------------------------------------------------------------------------
-function cRP.getPlayerInformationBd(idPlayer)
+function cRP.getPlayerInformationBd()
 	local src = source
 	local userPlayerId = vRP.getUserId(src)
 	local PlayerData = vRP.query("vRP/get_vrp_users",{ id = userPlayerId })
 	if PlayerData[1] ~= nil then
-		return PlayerData
+        if vRP.hasPermission(userPlayerId, "Police") then
+            PlayerData[1].job = { ["name"] = "police" }
+            return PlayerData
+        else
+            PlayerData[1].job = { ["name"] = "user" }
+            return PlayerData
+        end
     end
 end
 -----------------------------------------------------------------------------------------------------------------------------------------
