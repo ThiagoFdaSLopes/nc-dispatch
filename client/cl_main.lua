@@ -225,72 +225,74 @@ RegisterNetEvent('dispatch:clNotify', function(sNotificationData, sNotificationI
 end)
 
 RegisterNetEvent("nc-dispatch:client:AddCallBlip", function(coords, data, blipId)
-	if IsValidJob(data.recipientList) and CheckOnDuty() then
-		PlaySound(-1, data.sound, data.sound2, 0, 0, 1)
-		TriggerServerEvent("InteractSound_SV:PlayOnSource", data.sound, 0.25) -- For Custom Sounds
-		CreateThread(function()
-			local alpha = 255
-			local blip = nil
-			local radius = nil
-			local radiusAlpha = 128
-			local sprite, colour, scale = 161, 84, 1.0
-			local randomoffset = math.random(1,100)
-			if data.blipSprite then sprite = data.blipSprite end
-			if data.blipColour then colour = data.blipColour end
-			if data.blipScale then scale = data.blipScale end
-			if data.radius then radius = data.radius end
-			print(data.blipSprite, data.blipColour, data.blipScale, data.radius)
-			if data.offset == "true" then
-				if randomoffset <= 25 then
-					radius = AddBlipForRadius(coords.x + math.random(Config.MinOffset, Config.MaxOffset), coords.y + math.random(Config.MinOffset, Config.MaxOffset), coords.z, data.radius)
-					blip = AddBlipForCoord(coords.x + math.random(Config.MinOffset, Config.MaxOffset), coords.y + math.random(Config.MinOffset, Config.MaxOffset), coords.z)
-					blips[blipId] = blip
-				elseif randomoffset >= 26 and randomoffset <= 50 then
-					radius = AddBlipForRadius(coords.x - math.random(Config.MinOffset, Config.MaxOffset), coords.y + math.random(Config.MinOffset, Config.MaxOffset), coords.z, data.radius)
-					blip = AddBlipForCoord(coords.x - math.random(Config.MinOffset, Config.MaxOffset), coords.y + math.random(Config.MinOffset, Config.MaxOffset), coords.z)
-					blips[blipId] = blip
-				elseif randomoffset >= 51 and randomoffset <= 74 then
-					radius = AddBlipForRadius(coords.x - math.random(Config.MinOffset, Config.MaxOffset), coords.y - math.random(Config.MinOffset, Config.MaxOffset), coords.z, data.radius)
-					blip = AddBlipForCoord(coords.x - math.random(Config.MinOffset, Config.MaxOffset), coords.y - math.random(Config.MinOffset, Config.MaxOffset), coords.z)
-					blips[blipId] = blip
-				elseif randomoffset >= 75 and randomoffset <= 100 then
-					radius = AddBlipForRadius(coords.x + math.random(Config.MinOffset, Config.MaxOffset), coords.y - math.random(Config.MinOffset, Config.MaxOffset), coords.z, data.radius)
-					blip = AddBlipForCoord(coords.x + math.random(Config.MinOffset, Config.MaxOffset), coords.y - math.random(Config.MinOffset, Config.MaxOffset), coords.z)
+	if PlayerData.job.name == "police" then
+		if IsValidJob(data.recipientList) and CheckOnDuty() then
+			PlaySound(-1, data.sound, data.sound2, 0, 0, 1)
+			TriggerServerEvent("InteractSound_SV:PlayOnSource", data.sound, 0.25) -- For Custom Sounds
+			CreateThread(function()
+				local alpha = 255
+				local blip = nil
+				local radius = nil
+				local radiusAlpha = 128
+				local sprite, colour, scale = 161, 84, 1.0
+				local randomoffset = math.random(1,100)
+				if data.blipSprite then sprite = data.blipSprite end
+				if data.blipColour then colour = data.blipColour end
+				if data.blipScale then scale = data.blipScale end
+				if data.radius then radius = data.radius end
+				print(data.blipSprite, data.blipColour, data.blipScale, data.radius)
+				if data.offset == "true" then
+					if randomoffset <= 25 then
+						radius = AddBlipForRadius(coords.x + math.random(Config.MinOffset, Config.MaxOffset), coords.y + math.random(Config.MinOffset, Config.MaxOffset), coords.z, data.radius)
+						blip = AddBlipForCoord(coords.x + math.random(Config.MinOffset, Config.MaxOffset), coords.y + math.random(Config.MinOffset, Config.MaxOffset), coords.z)
+						blips[blipId] = blip
+					elseif randomoffset >= 26 and randomoffset <= 50 then
+						radius = AddBlipForRadius(coords.x - math.random(Config.MinOffset, Config.MaxOffset), coords.y + math.random(Config.MinOffset, Config.MaxOffset), coords.z, data.radius)
+						blip = AddBlipForCoord(coords.x - math.random(Config.MinOffset, Config.MaxOffset), coords.y + math.random(Config.MinOffset, Config.MaxOffset), coords.z)
+						blips[blipId] = blip
+					elseif randomoffset >= 51 and randomoffset <= 74 then
+						radius = AddBlipForRadius(coords.x - math.random(Config.MinOffset, Config.MaxOffset), coords.y - math.random(Config.MinOffset, Config.MaxOffset), coords.z, data.radius)
+						blip = AddBlipForCoord(coords.x - math.random(Config.MinOffset, Config.MaxOffset), coords.y - math.random(Config.MinOffset, Config.MaxOffset), coords.z)
+						blips[blipId] = blip
+					elseif randomoffset >= 75 and randomoffset <= 100 then
+						radius = AddBlipForRadius(coords.x + math.random(Config.MinOffset, Config.MaxOffset), coords.y - math.random(Config.MinOffset, Config.MaxOffset), coords.z, data.radius)
+						blip = AddBlipForCoord(coords.x + math.random(Config.MinOffset, Config.MaxOffset), coords.y - math.random(Config.MinOffset, Config.MaxOffset), coords.z)
+						blips[blipId] = blip
+					end
+				elseif data.offset == "false" then
+					radius = AddBlipForRadius(coords.x, coords.y, coords.z, data.radius)
+					blip = AddBlipForCoord(coords.x, coords.y, coords.z)
 					blips[blipId] = blip
 				end
-			elseif data.offset == "false" then
-				radius = AddBlipForRadius(coords.x, coords.y, coords.z, data.radius)
-				blip = AddBlipForCoord(coords.x, coords.y, coords.z)
-				blips[blipId] = blip
-			end
-			if data.blipflash == "true" then 
-				SetBlipFlashes(blip, true) 
-			elseif data.blipflash == "false" then 
-				SetBlipFlashes(blip, false)
-			end
-			SetBlipSprite(blip, sprite)
-			SetBlipHighDetail(blip, true)
-			SetBlipScale(blip, scale)
-			SetBlipColour(blip, colour)
-			SetBlipAlpha(blip, alpha)
-			SetBlipAsShortRange(blip, false)
-			SetBlipCategory(blip, 2)
-			SetBlipColour(radius, colour)
-			SetBlipAlpha(radius, radiusAlpha)
-			BeginTextCommandSetBlipName('STRING')
-			AddTextComponentString(data.displayCode..' - '..data.description)
-			EndTextCommandSetBlipName(blip)
-			while radiusAlpha ~= 0 do
-				Wait(data.blipLength * 1000)
-				radiusAlpha = radiusAlpha - 1
-				SetBlipAlpha(radius, radiusAlpha)	
-				if radiusAlpha == 0 then
-					RemoveBlip(radius)
-					RemoveBlip(blip)
-					return
+				if data.blipflash == "true" then 
+					SetBlipFlashes(blip, true) 
+				elseif data.blipflash == "false" then 
+					SetBlipFlashes(blip, false)
 				end
-			end
-		end)
+				SetBlipSprite(blip, sprite)
+				SetBlipHighDetail(blip, true)
+				SetBlipScale(blip, scale)
+				SetBlipColour(blip, colour)
+				SetBlipAlpha(blip, alpha)
+				SetBlipAsShortRange(blip, false)
+				SetBlipCategory(blip, 2)
+				SetBlipColour(radius, colour)
+				SetBlipAlpha(radius, radiusAlpha)
+				BeginTextCommandSetBlipName('STRING')
+				AddTextComponentString(data.displayCode..' - '..data.description)
+				EndTextCommandSetBlipName(blip)
+				while radiusAlpha ~= 0 do
+					Wait(data.blipLength * 1000)
+					radiusAlpha = radiusAlpha - 1
+					SetBlipAlpha(radius, radiusAlpha)	
+					if radiusAlpha == 0 then
+						RemoveBlip(radius)
+						RemoveBlip(blip)
+						return
+					end
+				end
+			end)
+		end
 	end
 end)
 
