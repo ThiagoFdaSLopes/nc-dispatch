@@ -39,7 +39,8 @@ function cRP.getInventoryItemPlayer()
     local user_id = vRP.getUserId(source)
 
     if user_id then
-        if vRP.tryGetInventoryItem(user_id,"cellphone",1) then
+        local quantity = vRP.getInventoryItemAmount(user_id, "cellphone")
+        if quantity >= 1 then
             return true
         end
     else

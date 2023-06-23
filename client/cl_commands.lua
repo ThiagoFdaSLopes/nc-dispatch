@@ -20,7 +20,7 @@ local phoneModel = Config.PhoneModel
 
 -- Item checks to return whether or not the client has a phone or not
 local function HasPhone()
-    if vSERVER.getInventoryItemPlayer(PlayerPedId()) then
+    if vSERVER.getInventoryItemPlayer() then
         return true
     end
 end
