@@ -22,17 +22,6 @@ function _U(entry)
 	return Locales[Config.Locale][entry] 
 end
 ------------------------------------------------------------------------------------------------------------------------------------------
-AddEventHandler("onResourceStart", function()
-	local data = vSERVER.getPlayerInformationBd()
-	if data[1] ~= nil then
-		PlayerData = data[1]
-		if PlayerData.job.name == "police" then
-			PlayerJob.onduty = true
-			isLoggedIn = true
-		end
-	end
-end)
-
 function getSpeed() return speedlimit end
 function getStreet() return currentStreetName end
 function getStreetandZone(coords)
@@ -146,7 +135,7 @@ end
 
 function GetPedGender()
     local gender = "Male"
-    if PlayerData["sex"] == "Female" then gender = "Female" end
+    if PlayerData.sex == "Female" then gender = "Female" end
     return gender
 end
 
@@ -225,6 +214,14 @@ RegisterNetEvent('dispatch:clNotify', function(sNotificationData, sNotificationI
 end)
 
 RegisterNetEvent("nc-dispatch:client:AddCallBlip", function(coords, data, blipId)
+	local client = vSERVER.getPlayerInformationBd()
+	if client[1] ~= nil then
+		PlayerData = client[1]
+		if PlayerData.job.name == "police" then
+			PlayerJob.onduty = true
+			isLoggedIn = true
+		end
+	end
 	if PlayerData.job.name == "police" then
 		if IsValidJob(data.recipientList) and CheckOnDuty() then
 			PlaySound(-1, data.sound, data.sound2, 0, 0, 1)
